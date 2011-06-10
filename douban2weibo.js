@@ -8,7 +8,23 @@
 // under GPL 3.0 Lisence.
 // ==/UserScript==
 
-
+// 自造 selector
+function $$(w){
+	return document.querySelectorAll(w);
+};
+function $(select){
+	var name = select.substring(1);
+	switch(select.charAt(0)){
+		case '#':
+			return document.getElementById(name);
+		case '.':
+			return document.getElementsByClassName(name);
+		case '/':
+			return document.getElementsByTagName(name);
+		default:
+			return document.getElementsByName(select);
+	}
+};
 
 //题目
 function getTitle(){
@@ -22,12 +38,12 @@ function getRating(){
 
 //短评
 function getComment(){
-    return "这本书不错";
+    return $("#rating").parentNode.lastChild.innerHTML;
 }
 
 //状态，想读、在读、读过、默认值是"推荐"
 function getState(){
-    return document.getElementById('rating').parentNode.firstChild.innerHTML;
+    return $("#rating").parentNode.firstChild.innerHTML;
 }
 
 //组装微博内容
