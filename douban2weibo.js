@@ -27,12 +27,12 @@ function getComment(){
 
 //状态，想读、在读、读过、默认值是"推荐"
 function getState(){
-    return "推荐";
+    return document.getElementById('rating').parentNode.firstChild.innerHTML;
 }
 
 //组装微博内容
 function generateWeiBo(){
-    return "我"+getState()+"《"+getTitle()+"》" +getRating()+ getComment();
+    return getState()+"《"+getTitle()+"》" +getRating()+ getComment();
 }
 
 //封面地址
