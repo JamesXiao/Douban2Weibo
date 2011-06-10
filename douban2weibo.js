@@ -9,16 +9,20 @@
 // ==/UserScript==
 
 
+//Jesse's work
 
 //题目
 function getTitle(){
-	return "书名";
+	return $("h1 span").text();
 }
 
 //评分：力荐、推荐、还行、较差、很差、默认值是空字符串
 function getRating(){
-    return "，力荐，";
+    return ($("#rateword").text())?($("#rateword").text()):"未评";
 }
+
+
+//James's work
 
 //短评
 function getComment(){
