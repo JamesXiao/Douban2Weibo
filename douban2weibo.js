@@ -53,7 +53,7 @@ function generateWeiBo(){
 
 //封面地址
 function getCover(){
-    return '';
+    return document.getElementById('mainpic').firstChild.href;
 }
 
 
