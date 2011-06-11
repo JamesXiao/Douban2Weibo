@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Share Douban Item to Sina Weibo
-// @namespace    http://xydonkey.blogbus.com/
+// @namespace    https://github.com/JamesXiao/Douban2Weibo
 // @include       http://movie.douban.com/subject/*
 // @include       http://music.douban.com/subject/*
 // @include       http://book.douban.com/subject/*
 // @description  分享豆瓣条目至新浪微博
+// @author 	xydonkey, +C
 // under GPL 3.0 Lisence.
 // ==/UserScript==
-
 
 // 自造 selector
 function $$(w){
@@ -34,26 +34,30 @@ function getTitle(){
 
 //评分：力荐、推荐、还行、较差、很差、默认值是空字符串
 function getRating(){
-    var rateword=$("#rateword").innerHTML;
-    return (rateword=='')?",":","+rateword+",";
+    var ratingTable ={'5':'力荐,','4':'推荐,','3':'还行,','2':'较差,','1':'很差,','':''};
+    var rate=$("#n_rating").value;
+    return rateword=ratingTable[rate];
 }
-
-
-//James's work
 
 //短评
 function getComment(){
-    return $("#rating").parentNode.lastChild.innerHTML;
+  if(document.getElementById("rating").nextSibling)	
+    return $("#rating").parentNode.lastChild.textContent;
+  else
+    return "";
 }
 
-//状态，想读、在读、读过、默认值是"推荐"
+//状态，想读、在读、读过
 function getState(){
+  if(document.getElementById("rating").nextSibling)
     return $("#rating").parentNode.firstChild.innerHTML;
+  else
+    return "";
 }
 
 //组装微博内容
 function generateWeiBo(){
-    return getState()+"《"+getTitle()+"》" +getRating()+ getComment();
+    return getState()+"《"+getTitle()+"》，" +getRating()+ getComment();
 }
 
 //封面地址
@@ -68,6 +72,7 @@ var param = {
 	type:	'3',
 	title:	generateWeiBo(), 
 	pic:   	getCover(), 
+	appkey: '3273825921',
 	rnd:	new Date().valueOf()
 }
 var temp = [];
@@ -75,6 +80,8 @@ for( var p in param ){
     temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
 }
 var share2Weibo = document.createElement('div');
-share2Weibo.innerHTML += '<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>';
+share2Weibo.innerHTML ='<a target="_blank" href="http://service.weibo.com/share/share.php?'
+			+ temp.join('&')  
+			+ '\"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png"  alt="分享至新浪微博" rel="v:image"></a>'; 
 var rating = document.getElementById('rating');
 var htmlContent =  rating.appendChild(share2Weibo);
