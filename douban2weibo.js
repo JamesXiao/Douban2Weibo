@@ -8,10 +8,7 @@
 // under GPL 3.0 Lisence.
 // ==/UserScript==
 
-<<<<<<< HEAD
 
-//Jesse's work
-=======
 // 自造 selector
 function $$(w){
 	return document.querySelectorAll(w);
@@ -29,16 +26,16 @@ function $(select){
 			return document.getElementsByName(select);
 	}
 };
->>>>>>> douban2weibo/master
 
 //题目
 function getTitle(){
-	return $("h1 span").text();
+	return $("/h1")[0].firstElementChild.innerHTML;
 }
 
 //评分：力荐、推荐、还行、较差、很差、默认值是空字符串
 function getRating(){
-    return ($("#rateword").text())?($("#rateword").text()):"未评";
+    var rateword=$("#rateword").innerHTML;
+    return (rateword=='')?",":","+rateword+",";
 }
 
 
