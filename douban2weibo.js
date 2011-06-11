@@ -34,25 +34,25 @@ function getTitle(){
 
 //评分：力荐、推荐、还行、较差、很差、默认值是空字符串
 function getRating(){
-    var ratingTable ={'5':'力荐,','4':'推荐,','3':'还行,','2':'较差,','1':'很差,','':''};
-    var rate=$("#n_rating").value;
-    return rateword=ratingTable[rate];
+    var ratingTable ={'5':'力荐，','4':'推荐，','3':'还行，','2':'较差，','1':'很差，','':''};
+    if ($("#n_rating")){
+        var rate=$("#n_rating").value;
+        return rateword=ratingTable[rate];
+    } else
+        return '';
 }
 
 //短评
 function getComment(){
-  if(document.getElementById("rating").nextSibling)	
-    return $("#rating").parentNode.lastChild.textContent;
-  else
-    return "";
+    if($("#interest_sect_level").firstChild.lastChild.tagName=='SPAN')
+        return $("#interest_sect_level").firstChild.lastChild.textContent;
+    else
+        return '';
 }
 
 //状态，想读、在读、读过
 function getState(){
-  if(document.getElementById("rating").nextSibling)
-    return $("#rating").parentNode.firstChild.innerHTML;
-  else
-    return "";
+    return $("#interest_sect_level").firstChild.firstChild.innerHTML;
 }
 
 //组装微博内容
@@ -83,5 +83,8 @@ for( var p in param ){
 }
 var share2Weibo = document.createElement('div');
 share2Weibo.innerHTML ='<a target="_blank" href="'+getLink()+'"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png"  alt="分享至新浪微博" rel="v:image"></a>';  
-var rating = document.getElementById('rating');
-var htmlContent =  rating.appendChild(share2Weibo);
+if ($('#rating')){
+    var add = $('#rating')
+} else
+    var add = $('#interest_sect_level');
+var htmlContent =  add.appendChild(share2Weibo);
