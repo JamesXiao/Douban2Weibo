@@ -65,8 +65,10 @@ function getCover(){
     return document.getElementById('mainpic').firstChild.href;
 }
 
-
-var _w = 72 , _h = 16;
+//新浪的链接
+function getLink(){
+    return "http://service.weibo.com/share/share.php?"+ temp.join('&');
+}
 var param = {
 	url:	location.href,
 	type:	'3',
@@ -80,8 +82,6 @@ for( var p in param ){
     temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
 }
 var share2Weibo = document.createElement('div');
-share2Weibo.innerHTML ='<a target="_blank" href="http://service.weibo.com/share/share.php?'
-			+ temp.join('&')  
-			+ '\"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png"  alt="分享至新浪微博" rel="v:image"></a>'; 
+share2Weibo.innerHTML ='<a target="_blank" href="'+getLink()+'"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png"  alt="分享至新浪微博" rel="v:image"></a>';  
 var rating = document.getElementById('rating');
 var htmlContent =  rating.appendChild(share2Weibo);
