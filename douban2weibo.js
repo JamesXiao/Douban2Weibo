@@ -45,7 +45,7 @@ function getRating(){
 //短评
 function getComment(){
     if($("#interest_sect_level").firstChild.tagName=='DIV')
-        return '\"' + $("#interest_sect_level").firstChild.lastChild.textContent + '\"';
+        return '\"' + $("#interest_sect_level").firstChild.lastChild.textContent.replace(/^\s+|\s+$/g,"") + '\"';//regular expression use to right trim
     else
         return '';
 }
@@ -101,6 +101,22 @@ for( var p in param ){
     temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
 }
 share2Weibo.innerHTML +='&nbsp;<a target="_blank" href="'+getBuzzLink()+'"> <img src="http://code.google.com/apis/buzz/images/google-buzz-16x16.png" alt="分享至 Google Buzz" title="分享至 Google Buzz" rel="v:image"></a>';
+
+// Twitter link
+
+function getTwitterLink(){
+	return "http://twitter.com/share?"+temp.join('&');
+}
+param={
+	url: location.href,
+	text: generateWeiBo(),
+}
+temp=[];
+for( var p in param ){
+    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+}
+share2Weibo.innerHTML +='&nbsp;<a target="_blank" href="'+getTwitterLink()+'"><img src="https://si0.twimg.com/images/dev/cms/intents/bird/bird_blue/bird_16_blue.png" alt="Share with Twitter" title="Share with Twitter" rel="v:image"></a>';
+
 
 if ($('#rating')){
     var add = $('#rating')
