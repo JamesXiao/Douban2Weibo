@@ -68,10 +68,25 @@ function getCover(){
     return document.getElementById('mainpic').firstChild.href;
 }
 
-//新浪的链接
-function getLink(){
-    return "http://service.weibo.com/share/share.php?"+ temp.join('&');
+//组成参数串
+function addParam(param){
+    var temp=[];
+    for( var p in param ){
+        temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+    }
+    return temp;
 }
+
+//分享的链接
+function getLink(link){
+    return link + addParam(param).join('&');
+}
+
+//分享按钮的html代码
+function getSharingHtml(url, alt, img){
+    return '&nbsp;<a target="_blank" href=\"' +getLink(url)+ '"> <img src="' + img + '" alt="' + alt + '" title="'+alt+'" rel="v:image"></a>';
+}
+
 var param = {
 	url:	location.href,
 	type:	'3',
@@ -80,44 +95,33 @@ var param = {
 	appkey: '3273825921',
 	rnd:	new Date().valueOf()
 }
-var temp = [];
-for( var p in param ){
-    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
-}
 var share2Weibo = document.createElement('div');
-share2Weibo.innerHTML ='<a target="_blank" href="'+getLink()+'"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png" alt="分享至新浪微博" title="分享至新浪微博" rel="v:image"></a>';
+share2Weibo.innerHTML =getSharingHtml("http://service.weibo.com/share/share.php?", "分享至新浪微博", "http://www.sinaimg.cn/blog/developer/wiki/16x16.png");
 
-// Google Buzz 的链接
-function getBuzzLink(){
-    return "https://www.google.com/buzz/post?"+ temp.join('&');
-}
+// Google Buzz 
 param = {
 	url:		location.href,
 	message:	generateWeiBo(),
-	imageurl:   	getCover(),
+	imageurl:   	getCover()
 }
-temp = [];
-for( var p in param ){
-    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
-}
-share2Weibo.innerHTML +='&nbsp;<a target="_blank" href="'+getBuzzLink()+'"> <img src="http://code.google.com/apis/buzz/images/google-buzz-16x16.png" alt="分享至 Google Buzz" title="分享至 Google Buzz" rel="v:image"></a>';
+share2Weibo.innerHTML +=getSharingHtml("https://www.google.com/buzz/post?", "分享至Google Buzz", "http://code.google.com/apis/buzz/images/google-buzz-16x16.png");
 
-// Twitter link
-
-function getTwitterLink(){
-	return "http://twitter.com/share?"+temp.join('&');
-}
+// Twitter
 param={
 	url: location.href,
-	text: generateWeiBo(),
+	text: generateWeiBo()
 }
-temp=[];
-for( var p in param ){
-    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+share2Weibo.innerHTML +=getSharingHtml("http://twitter.com/share?", "分享至Twitter", "https://si0.twimg.com/images/dev/cms/intents/bird/bird_blue/bird_16_blue.png");
+
+// Follow5
+param = {
+    url: location.href,
+    title: generateWeiBo(),
+    picurl: getCover()
 }
-share2Weibo.innerHTML +='&nbsp;<a target="_blank" href="'+getTwitterLink()+'"><img src="https://si0.twimg.com/images/dev/cms/intents/bird/bird_blue/bird_16_blue.png" alt="Share with Twitter" title="Share with Twitter" rel="v:image"></a>';
+share2Weibo.innerHTML +=getSharingHtml("http://www.follow5.com/f5/discuz/sharelogin.jsp?", "分享至Follow5", "http://www.follow5.com/f5/scfe/common/imgs/plugin/5button/16.gif");
 
-
+// add sharing link to page
 if ($('#rating')){
     var add = $('#rating')
 } else
