@@ -44,7 +44,7 @@ function getRating(){
 
 //短评
 function getComment(){
-    if($("#interest_sect_level").firstChild.lastChild.tagName=='SPAN')
+    if($("#interest_sect_level").firstChild.tagName=='DIV')
         return $("#interest_sect_level").firstChild.lastChild.textContent;
     else
         return '';
@@ -52,7 +52,10 @@ function getComment(){
 
 //状态，想读、在读、读过
 function getState(){
-    return $("#interest_sect_level").firstChild.firstChild.innerHTML;
+    if ($("#interest_sect_level").firstChild.tagName=="DIV")
+        return $("#interest_sect_level").firstChild.firstChild.innerHTML;
+    else
+        return "";
 }
 
 //组装微博内容
