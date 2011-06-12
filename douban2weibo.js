@@ -34,7 +34,7 @@ function getTitle(){
 
 //评分：力荐、推荐、还行、较差、很差、默认值是空字符串
 function getRating(){
-    var ratingTable ={'5':'力荐，','4':'推荐，','3':'还行，','2':'较差，','1':'很差，','':''};
+    var ratingTable ={'5':'，力荐','4':'，推荐','3':'，还行','2':'，较差','1':'，很差','':''};
     if ($("#n_rating")){
         var rate=$("#n_rating").value;
         return rateword=ratingTable[rate];
@@ -45,7 +45,7 @@ function getRating(){
 //短评
 function getComment(){
     if($("#interest_sect_level").firstChild.lastChild.tagName=='SPAN')
-        return $("#interest_sect_level").firstChild.lastChild.textContent;
+        return '，' + $("#interest_sect_level").firstChild.lastChild.textContent;
     else
         return '';
 }
@@ -57,7 +57,7 @@ function getState(){
 
 //组装微博内容
 function generateWeiBo(){
-    return getState()+"《"+getTitle()+"》，" +getRating()+ getComment();
+    return getState()+"《"+getTitle()+"》" +getRating()+ getComment();
 }
 
 //封面地址
@@ -72,8 +72,8 @@ function getLink(){
 var param = {
 	url:	location.href,
 	type:	'3',
-	title:	generateWeiBo(), 
-	pic:   	getCover(), 
+	title:	generateWeiBo(),
+	pic:   	getCover(),
 	appkey: '3273825921',
 	rnd:	new Date().valueOf()
 }
@@ -82,7 +82,23 @@ for( var p in param ){
     temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
 }
 var share2Weibo = document.createElement('div');
-share2Weibo.innerHTML ='<a target="_blank" href="'+getLink()+'"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png"  alt="分享至新浪微博" rel="v:image"></a>';  
+share2Weibo.innerHTML ='<a target="_blank" href="'+getLink()+'"> <img src="http://www.sinaimg.cn/blog/developer/wiki/16x16.png" alt="分享至新浪微博" title="分享至新浪微博" rel="v:image"></a>';
+
+// Google Buzz 的链接
+function getBuzzLink(){
+    return "https://www.google.com/buzz/post?"+ temp.join('&');
+}
+param = {
+	url:		location.href,
+	message:	generateWeiBo(),
+	imageurl:   	getCover(),
+}
+temp = [];
+for( var p in param ){
+    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+}
+share2Weibo.innerHTML +='&nbsp;<a target="_blank" href="'+getBuzzLink()+'"> <img src="http://code.google.com/apis/buzz/images/google-buzz-16x16.png" alt="分享至 Google Buzz" title="分享至 Google Buzz" rel="v:image"></a>';
+
 if ($('#rating')){
     var add = $('#rating')
 } else
