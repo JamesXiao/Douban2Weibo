@@ -34,7 +34,7 @@ function getTitle(){
 
 //评分：力荐、推荐、还行、较差、很差、默认值是空字符串
 function getRating(){
-    var ratingTable ={'5':'，力荐','4':'，推荐','3':'，还行','2':'，较差','1':'，很差','':''};
+    var ratingTable ={'5':'，力荐。','4':'，推荐。','3':'，还行。','2':'，较差。','1':'，很差。','':''};
     if ($("#n_rating")){
         var rate=$("#n_rating").value;
         return rateword=ratingTable[rate];
@@ -44,13 +44,8 @@ function getRating(){
 
 //短评
 function getComment(){
-<<<<<<< HEAD
     if($("#interest_sect_level").firstChild.tagName=='DIV')
-        return $("#interest_sect_level").firstChild.lastChild.textContent;
-=======
-    if($("#interest_sect_level").firstChild.lastChild.tagName=='SPAN')
-        return '，' + $("#interest_sect_level").firstChild.lastChild.textContent;
->>>>>>> d808535cf8b33e37169684fab22f4a7d4a7e59d5
+        return '\"' + $("#interest_sect_level").firstChild.lastChild.textContent + '\"';
     else
         return '';
 }
